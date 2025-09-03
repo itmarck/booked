@@ -4,11 +4,11 @@ import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
 export function Welcome({
-  guestBook,
+  users,
   guestBookError,
   message,
 }: {
-  guestBook: {
+  users: {
     name: string;
     id: number;
   }[];
@@ -98,7 +98,7 @@ export function Welcome({
             </Form>
             <ul className="text-center">
               {<li className="p-3">{message}</li>}
-              {guestBook.map(({ id, name }) => (
+              {users.map(({ id, name }) => (
                 <li key={id} className="p-3">
                   {name}
                 </li>

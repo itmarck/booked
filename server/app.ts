@@ -10,6 +10,7 @@ import * as schema from "~/database/schema";
 declare module "react-router" {
   interface AppLoadContext {
     VALUE_FROM_EXPRESS: string;
+    app_name: string;
   }
 }
 
@@ -27,6 +28,7 @@ app.use(
     getLoadContext() {
       return {
         VALUE_FROM_EXPRESS: "Hello from Express",
+        'app_name': 'Booked',
       };
     },
   }),

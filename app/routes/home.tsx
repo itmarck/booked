@@ -1,10 +1,9 @@
 import { database } from "~/database/context";
-import * as schema from "~/database/schema";
 
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -21,40 +20,33 @@ export async function action({ request }: Route.ActionArgs) {
 
   name = name.trim();
   email = email.trim();
-  if (!name || !email) {
-    return { guestBookError: "Name and email are required" };
-  }
 
-  const db = database();
-  try {
-    await db.insert(schema.guestBook).values({ name, email });
-  } catch (error) {
-    return { guestBookError: "Error adding to guest book" };
-  }
+  console.log({ name, email });
 }
 
 export async function loader({ context }: Route.LoaderArgs) {
   const db = database();
 
-  const guestBook = await db.query.guestBook.findMany({
-    columns: {
-      id: true,
-      name: true,
-    },
+  const users = await db.query.users.findMany({
+    // columns: {
+    //   id: true,
+    //   name: true,
+    // },
   });
 
   return {
-    guestBook,
+    users,
     message: context.VALUE_FROM_EXPRESS,
+    app: context.app_name,
   };
 }
 
 export default function Home({ actionData, loaderData }: Route.ComponentProps) {
   return (
-    <Welcome
-      guestBook={loaderData.guestBook}
-      guestBookError={actionData?.guestBookError}
-      message={loaderData.message}
-    />
+    <div>
+      <pre>
+        <code>{JSON.stringify(loaderData, null, 2)}</code>
+      </pre>
+    </div>
   );
 }
